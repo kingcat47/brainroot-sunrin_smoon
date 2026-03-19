@@ -1,57 +1,61 @@
 package com.example.brainroot.ui.theme
 
-import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background            = Dark_Background,
+    surface               = Dark_Surface,
+    surfaceVariant        = Dark_SurfaceVariant,
+    primary               = Dark_Primary,
+    onPrimary             = Dark_Background,
+    primaryContainer      = Dark_PrimaryContainer,
+    onPrimaryContainer    = Dark_OnBright,
+    secondary             = Dark_Secondary,
+    onSecondary           = Dark_Background,
+    secondaryContainer    = Dark_SecondaryContainer,
+    onSecondaryContainer  = Dark_OnBright,
+    tertiary              = Dark_Tertiary,
+    onTertiary            = Dark_Background,
+    tertiaryContainer     = Dark_TertiaryContainer,
+    onTertiaryContainer   = Dark_OnBright,
+    onBackground          = Dark_OnBright,
+    onSurface             = Dark_OnBright,
+    onSurfaceVariant      = Dark_OnMuted,
+    outline               = Dark_Outline,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background            = Light_Background,
+    surface               = Light_Surface,
+    surfaceVariant        = Light_SurfaceVariant,
+    primary               = Light_Primary,
+    onPrimary             = Light_Surface,
+    primaryContainer      = Light_PrimaryContainer,
+    onPrimaryContainer    = Light_OnBright,
+    secondary             = Light_Secondary,
+    onSecondary           = Light_Surface,
+    secondaryContainer    = Light_SecondaryContainer,
+    onSecondaryContainer  = Light_OnBright,
+    tertiary              = Light_Tertiary,
+    onTertiary            = Light_Surface,
+    tertiaryContainer     = Light_TertiaryContainer,
+    onTertiaryContainer   = Light_OnBright,
+    onBackground          = Light_OnBright,
+    onSurface             = Light_OnBright,
+    onSurfaceVariant      = Light_OnMuted,
+    outline               = Light_Outline,
 )
 
 @Composable
 fun BrainrootTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
         typography = Typography,
         content = content
     )

@@ -35,12 +35,17 @@ class MainActivity : ComponentActivity() {
         permissionLauncher.launch(permissions.toTypedArray())
 
         setContent {
-            BrainrootTheme {
+            var darkTheme by remember { mutableStateOf(true) }
+            BrainrootTheme(darkTheme = darkTheme) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     var currentScreen by remember { mutableStateOf("home") }
                     when (currentScreen) {
                         "home"     -> HomeScreen(onNavigateToSettings = { currentScreen = "settings" })
-                        "settings" -> SettingsScreen(onBack = { currentScreen = "home" })
+                        "settings" -> SettingsScreen(
+                            onBack = { currentScreen = "home" },
+                            darkTheme = darkTheme,
+                            onDarkThemeChange = { darkTheme = it }
+                        )
                     }
                 }
             }

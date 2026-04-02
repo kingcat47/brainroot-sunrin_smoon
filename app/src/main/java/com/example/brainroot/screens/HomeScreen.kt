@@ -19,11 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +30,15 @@ import com.example.brainroot.components.Toggle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onNavigateToSettings: () -> Unit) {
+fun HomeScreen(
+    onNavigateToSettings: () -> Unit,
+    eyeTracking: Boolean,
+    onEyeTrackingChange: (Boolean) -> Unit,
+    autoScroll: Boolean,
+    onAutoScrollChange: (Boolean) -> Unit,
+    scrollSpeed: Float,
+    onScrollSpeedChange: (Float) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -71,17 +74,27 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Header()
-            ActivityContent()
+            ActivityContent(
+                eyeTracking = eyeTracking,
+                onEyeTrackingChange = onEyeTrackingChange,
+                autoScroll = autoScroll,
+                onAutoScrollChange = onAutoScrollChange,
+                scrollSpeed = scrollSpeed,
+                onScrollSpeedChange = onScrollSpeedChange
+            )
         }
     }
 }
 
 @Composable
-fun ActivityContent() {
-    var eyeTracking by remember { mutableStateOf(false) }
-    var autoScroll by remember { mutableStateOf(false) }
-    var scrollSpeed by remember { mutableFloatStateOf(5f) }
-
+fun ActivityContent(
+    eyeTracking: Boolean,
+    onEyeTrackingChange: (Boolean) -> Unit,
+    autoScroll: Boolean,
+    onAutoScrollChange: (Boolean) -> Unit,
+    scrollSpeed: Float,
+    onScrollSpeedChange: (Float) -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -96,18 +109,18 @@ fun ActivityContent() {
             Toggle(
                 label = "Eye Tracking",
                 checked = eyeTracking,
-                onCheckedChange = { eyeTracking = it }
+                onCheckedChange = onEyeTrackingChange
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
             Toggle(
                 label = "Auto Scroll",
                 checked = autoScroll,
-                onCheckedChange = { autoScroll = it }
+                onCheckedChange = onAutoScrollChange
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
             ScrollSpeed(
                 speed = scrollSpeed,
-                onSpeedChange = { scrollSpeed = it }
+                onSpeedChange = onScrollSpeedChange
             )
         }
     }
